@@ -22,8 +22,7 @@ before_install:
   - export SEMVER=${SEMVER_MAJOR}.${SEMVER_MINOR}.${SEMVER_BUILD}
   - echo SEMVER:$SEMVER
   - if [[ ${SEMVER_MAJOR} == "" ]]; then travis_terminate 1; fi
-  - echo CURRENT_VERSION:$SEMVER
-  - export TRAVIS_TAG=$CURRENT_VERSION
+  - export TRAVIS_TAG=$SEMVER
   - echo TRAVIS_TAG:$TRAVIS_TAG
 
 #build and test
@@ -48,14 +47,13 @@ script:
 
 ## Get the project version
 before_deploy:
-  - echo TRAVIS_TAG:$TRAVIS_TAG
-  - if [[ $TRAVIS_BRANCH == "master" ]]; then git tag $CURRENT_VERSION; fi
+  - if [[ $TRAVIS_BRANCH == "master" ]]; then git tag $TRAVIS_TAG; fi
 
 ## Create release in GitHub
 deploy:
   provider: releases
-  tag_name: $CURRENT_VERSION
-  name: $CURRENT_VERSION
+  tag_name: $TRAVIS_TAG
+  name: $TRAVIS_TAG
   target_commitish: $TRAVIS_COMMIT
   api_key: $GITHUB_TOKEN
   skip_cleanup: true
