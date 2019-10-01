@@ -47,13 +47,16 @@ script:
 ## Get the project version
 before_deploy:
   - export TRAVIS_TAG=$CURRENT_VERSION
+  - echo TRAVIS_TAG=$TRAVIS_TAG
   - if [[ $TRAVIS_BRANCH == "master" ]]; then git tag $TRAVIS_TAG; fi
 
 ## Create release in GitHub
 deploy:
   provider: releases
+  tag_name: $TRAVIS_TAG
+  name: $TRAVIS_TAG
+  target_commitish: $TRAVIS_COMMIT
   api_key: $GITHUB_TOKEN
   skip_cleanup: true
   on:
     branch: master
-  name: $CURRENT_VERSION
