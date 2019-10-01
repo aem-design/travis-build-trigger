@@ -13,7 +13,7 @@ This is docker image based on [node:10](https://hub.docker.com/_/node)
 
 ### Script Parameters
 
-Following environment variables are available
+Following parameters are available
 
 | Name              | Default Value                 | Notes |
 | ---               | ---                           | ---   |
