@@ -28,7 +28,7 @@ Following parameters are available
 To trigger a job directly
 
 ```bash
-docker run aemdesign/travis-trigger-build \
+docker run --rm aemdesign/travis-trigger-build \
 start-branch-build \
 --github_user=aem-design --github_repo=aem --travis_token=<TOKEN>
 ``` 
