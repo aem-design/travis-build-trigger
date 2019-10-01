@@ -3,14 +3,6 @@ language: java
 services:
   - 'docker'
 
-env:
-  global:
-    - PACKAGE_PATH="$(pwd)/packages"
-
-cache:
-  directories:
-    - $PACKAGE_PATH
-
 
 before_install:
   - export IMAGE_NAME=$(grep imagename= Dockerfile | sed -e 's/.*imagename="\(.*\)".*/\1/')
@@ -22,26 +14,15 @@ before_install:
   - echo IMAGE_VERSION=$IMAGE_VERSION
   - echo TEST_COMMAND=$TEST_COMMAND
   - echo TEST_COMMAND_VERIFY=$TEST_COMMAND_VERIFY
-  - echo $PACKAGE_PATH
-  - if [[ ! -d $PACKAGE_PATH ]]; then mkdir $PACKAGE_PATH; fi
-  - echo PACKAGES CONTENTS $PACKAGE_PATH
-  - ls -latr $PACKAGE_PATH
-  - echo DOWNLOAD PACKAGES INTO ${PACKAGE_PATH}
-  - ./scripts/download.sh "$PACKAGE_PATH/" "-" "-" "https://helpx.adobe.com/experience-manager/6-2/sites/developing/using/tough-day/_jcr_content/main-pars/download-section/download-1/file.res/toughday-6.1.jar"
-  - ./scripts/download.sh "$PACKAGE_PATH/" "-" "-" "https://repo.adobe.com/nexus/content/repositories/releases/com/adobe/qe/toughday2/0.9.2/toughday2-0.9.2.jar"
-  - ./scripts/download.sh "$PACKAGE_PATH/" "-" "-" "https://repo.adobe.com/nexus/content/repositories/releases/com/adobe/qe/toughday2/0.2.1/toughday2-0.2.1.jar"
-  - ls -latr $PACKAGE_PATH
 
 #build and test
 install:
   - docker build --pull -t $IMAGE:$IMAGE_VERSION .
-  - docker tag $IMAGE:$IMAGE_VERSION $IMAGE:latest
   - export CONTAINER_COMMAND="docker run $IMAGE $TEST_COMMAND"
   - echo CONTAINER_COMMAND=$CONTAINER_COMMAND
   - export CONTAINER_OUTPUT=$(eval $CONTAINER_COMMAND)
   - echo CONTAINER_OUTPUT=$CONTAINER_OUTPUT
   - if [[ ! ${CONTAINER_OUTPUT} =~ ${TEST_COMMAND_VERIFY} ]]; then travis_terminate 1; fi
-  - docker tag $IMAGE:$IMAGE_VERSION $IMAGE:$CONTAINER_OUTPUT
   - docker images
 
 #test
@@ -49,7 +30,8 @@ script:
   - echo "LOGIN TO HUB.DOCKER"
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - echo "PUSH HUB.DOCKER"
-  - docker push $IMAGE:$IMAGE_VERSION && docker push $IMAGE:$CONTAINER_OUTPUT && if [[ $TRAVIS_BRANCH == "master" ]]; then docker push $IMAGE:latest; fi
+  - docker push $IMAGE:$IMAGE_VERSION
+  - if [[ $TRAVIS_BRANCH == "master" ]]; then docker tag $IMAGE:$IMAGE_VERSION $IMAGE:latest && docker push $IMAGE:latest; fi
   - echo "UPDATE README IN HUB.DOCKER"
   - if [[ $TRAVIS_BRANCH == "master" ]]; then docker run --rm -v $(pwd):/data/ aemdesign/dockerhub-description "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$IMAGE"; fi
 
