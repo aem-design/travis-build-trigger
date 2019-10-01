@@ -10,7 +10,7 @@ const args = require('yargs')
         desc: 'Start repo build for a particular branch',
         handler: (argv) => {
             debugMode = argv['debug'] || false;
-            triggerTravisBuild(argv['github_user'], argv['github_repo'], argv['github_branch'], argv['travis_token']);
+            triggerTravisBuild(argv);
         }
     })
     .option('help', {
@@ -37,13 +37,16 @@ const args = require('yargs')
         demand: 'github user is required'
     })
     .option('travis_token', {
-        description: 'github access token',
-        demand: 'github token is required'
+        description: 'travis access token',
+        demand: 'travis token is required'
     })
     .option('github_branch', {
-        description: 'github access token',
-        demand: 'github branch to trigger build on',
+        description: 'github branch to trigger build on',
         default: 'master'
+    })
+    .option('travis_url', {
+        description: 'travis url to use to trigger jobs',
+        default: 'https://api.travis-ci.org/repo/'
     })
     .example('node generator.js sbb --github_user=aem-design --github_repo=aem --github_token=<TOKEN>' )
     .demandCommand()
@@ -57,17 +60,20 @@ function debug(content) {
     }
 }
 
-function triggerTravisBuild(user, repo, branch, token) {
-    debug(['triggerTravisBuild', user, repo, branch])
-    const options = {
-        url: "https://api.travis-ci.org/repo/" + user + "%2f" + repo,
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
+function triggerTravisBuild(argv) {
+    debug(['triggerTravisBuild', JSON.parse(JSON.stringify(argv).replace(argv['travis_token'],"xxx"))])
+
+    let headers = {
+        "Content-Type": "application/json",
             "Accept": "application/json",
             "Travis-API-Version": "3",
-            "Authorization": "token " + token
-        }
+            "Authorization": "token " + argv['travis_token']
+    }
+
+    const options = {
+        url: argv['travis_url'] + argv['github_user'] + "%2f" + argv['github_repo'],
+        method: "GET",
+        headers: headers
     };
 
     request(options, (error, res, body) => {
@@ -76,36 +82,28 @@ function triggerTravisBuild(user, repo, branch, token) {
         }
         bodyJson = JSON.parse(body)
         debug(['triggerTravisBuild','bodyJson',bodyJson])
-        triggerBuild(bodyJson["id"], branch, token)
-    })
+        repoId = bodyJson["id"]
 
-}
-
-function triggerBuild(repoId, branch, token) {
-
-    const options = {
-        url: "https://api.travis-ci.org/repo/" + repoId + "/requests",
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Travis-API-Version": "3",
-            "Authorization": "token " + token
-        },
-        json: {
-            "request": {
-                "branch": branch,
-                "config": null
+        const options = {
+            url: argv['travis_url'] + repoId + "/requests",
+            method: "POST",
+            headers: headers,
+            json: {
+                "request": {
+                    "branch": argv['github_branch'],
+                    "config": null
+                }
             }
-        }
-    };
-    debug(['triggerBuild','options', JSON.parse(JSON.stringify(options).replace(token,"xxx")) ])
-    request(options, (error, res, body) => {
-        if (error) {
-            console.error(['triggerBuild','error',`statusCode: ${res.statusCode}`, error])
-            return
-        }
-        console.log(['triggerBuild','done',`statusCode: ${res.statusCode}`, body])
+        };
+        debug(['triggerBuild','options', JSON.parse(JSON.stringify(options).replace(argv['travis_token'],"xxx")) ])
+        request(options, (error, res, body) => {
+            if (error) {
+                console.error(['triggerBuild','error',`statusCode: ${res.statusCode}`, error])
+                return
+            }
+            console.log(['triggerBuild','done',`statusCode: ${res.statusCode}`, body])
+        })
+
     })
 
 }
