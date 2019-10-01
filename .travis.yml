@@ -22,7 +22,7 @@ before_install:
   - export SEMVER=${SEMVER_MAJOR}.${SEMVER_MINOR}.${SEMVER_BUILD}
   - echo SEMVER=$SEMVER
   - if [[ ${SEMVER_MAJOR} == "" ]]; then travis_terminate 1; fi
-  - echo CURRENT_VERSION=$CURRENT_VERSION
+  - echo CURRENT_VERSION=$SEMVER
 
 #build and test
 install:
