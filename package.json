@@ -1,0 +1,26 @@
+{
+  "name": "travis-build-trigger",
+  "version": "1.0.0",
+  "description": "Trigger travis build job for a repo.",
+  "main": "travis-trigger-build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aem-design/travis-build-trigger.git"
+  },
+  "keywords": [
+    "travis"
+  ],
+  "author": "Max Barrass",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/aem-design/travis-build-trigger/issues"
+  },
+  "homepage": "https://github.com/aem-design/travis-build-trigger#readme",
+  "dependencies": {
+    "request": "^2.88.0",
+    "yargs": "^14.0.0"
+  }
+}
