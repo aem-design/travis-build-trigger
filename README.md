@@ -1,46 +1,46 @@
-## CentOS 7 with toughday
+## Travis Build Trigger
 
-[![build_status](https://travis-ci.org/aem-design/toughday.svg?branch=master)](https://travis-ci.org/aem-design/toughday) 
-[![github license](https://img.shields.io/github/license/aem-design/toughday)](https://github.com/aem-design/toughday) 
-[![github issues](https://img.shields.io/github/issues/aem-design/toughday)](https://github.com/aem-design/toughday) 
-[![github last commit](https://img.shields.io/github/last-commit/aem-design/toughday)](https://github.com/aem-design/toughday) 
-[![github repo size](https://img.shields.io/github/repo-size/aem-design/toughday)](https://github.com/aem-design/toughday) 
-[![docker stars](https://img.shields.io/docker/stars/aemdesign/toughday)](https://hub.docker.com/r/aemdesign/toughday) 
-[![docker pulls](https://img.shields.io/docker/pulls/aemdesign/toughday)](https://hub.docker.com/r/aemdesign/toughday) 
-[![github release](https://img.shields.io/github/release/aem-design/toughday)](https://github.com/aem-design/toughday)
+[![build_status](https://travis-ci.org/aem-design/tavis-build-trigger.svg?branch=master)](https://travis-ci.org/aem-design/tavis-build-trigger) 
+[![github license](https://img.shields.io/github/license/aem-design/tavis-build-trigger)](https://github.com/aem-design/tavis-build-trigger) 
+[![github issues](https://img.shields.io/github/issues/aem-design/tavis-build-trigger)](https://github.com/aem-design/tavis-build-trigger) 
+[![github last commit](https://img.shields.io/github/last-commit/aem-design/tavis-build-trigger)](https://github.com/aem-design/tavis-build-trigger) 
+[![github repo size](https://img.shields.io/github/repo-size/aem-design/tavis-build-trigger)](https://github.com/aem-design/tavis-build-trigger) 
+[![docker stars](https://img.shields.io/docker/stars/aemdesign/tavis-build-trigger)](https://hub.docker.com/r/aemdesign/tavis-build-trigger) 
+[![docker pulls](https://img.shields.io/docker/pulls/aemdesign/tavis-build-trigger)](https://hub.docker.com/r/aemdesign/tavis-build-trigger) 
+[![github release](https://img.shields.io/github/release/aem-design/tavis-build-trigger)](https://github.com/aem-design/tavis-build-trigger)
 
-This is docker image based on [aemdesign/oracle-jdk](https://hub.docker.com/r/aemdesign/oracle-jdk/) with toughday added
+This is docker image based on [node:10](https://hub.docker.com/_/node)
 
-### Packages
-
-Following packages that can be used for stress testing are added 
-
-| File | Notes  |
-| ---  | ---    |
-| [toughday-6.1.jar](https://helpx.adobe.com/experience-manager/6-2/sites/developing/using/tough-day/_jcr_content/main-pars/download-section/download-1/file.res/toughday-6.1.jar) |  |
-| [toughday2-0.9.2.jar](https://repo.adobe.com/nexus/content/repositories/releases/com/adobe/qe/toughday2/0.9.2/toughday2-0.9.2.jar) |  |
-| [toughday2-0.2.1.jar](https://repo.adobe.com/nexus/content/repositories/releases/com/adobe/qe/toughday2/0.2.1/toughday2-0.2.1.jar) |  |
-
-### Environment Variables
+### Script Parameters
 
 Following environment variables are available
 
 | Name              | Default Value                 | Notes |
 | ---               | ---                           | ---   |
-| TEST_HOST         | "192.168.27.2"                | host address |
-| TEST_PORT         | "4502"                        | port to use for host |
-| TEST_JAR          | "toughday-6.1.jar"            | package to use for execution |
-| TEST_MEM          | "-Xmx1024m"                   | memory to use when eecuting |
+| github_user       | "192.168.27.2"                | github user name where repo is located |
+| github_repo       | "4502"                        | repo name |
+| travis_token      | "toughday-6.1.jar"            | travis access token |
+| github_branch     | master                        | github branch to trigger build on |
+| travis_url        | master                        | travis url to use to trigger jobs |
 
 ### Starting
 
-To start a test of a local instance running on `192.168.27.2:4502` using test tool `toughday-6.1.jar` using 1GB ram use following command:
+To trigger a job directly
 
 ```bash
-docker run \
--e "TEST_HOST=192.168.27.2" \
--e "TEST_PORT=4502" \
--e "TEST_JAR=toughday-6.1.jar" \
--e "TEST_JAVAOPTS=-Xmx1024m" \
-aemdesign/toughday
+docker run aemdesign/travis-trigger-build \
+start-branch-build \
+--github_user=aem-design --github_repo=aem --travis_token=<TOKEN>
 ``` 
+
+To trigger in Travis pipeline add the following to your stages
+
+```yaml
+before_install:
+  # get current repo user name
+  - declare -a REPO_SLUG_ARRAY="(${TRAVIS_REPO_SLUG/\// })"
+deploy:
+  # trigger rebuild in related repo
+  - provider: script
+    script: if [[ $TRAVIS_BRANCH == "master" ]]; then bash docker run --rm aemdesign/travis-trigger-build start-branch-build --github_user=${REPO_SLUG_ARRAY[0]} --github_repo=aem --github_branch=${TRAVIS_BRANCH} --travis_token=${TRAVIS_TOKEN}; fi
+```
