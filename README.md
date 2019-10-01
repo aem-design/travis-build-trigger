@@ -17,11 +17,11 @@ Following environment variables are available
 
 | Name              | Default Value                 | Notes |
 | ---               | ---                           | ---   |
-| github_user       | "192.168.27.2"                | github user name where repo is located |
-| github_repo       | "4502"                        | repo name |
-| travis_token      | "toughday-6.1.jar"            | travis access token |
+| github_user       |                               | github user name where repo is located |
+| github_repo       |                               | repo name |
+| travis_token      |                               | travis access token |
 | github_branch     | master                        | github branch to trigger build on |
-| travis_url        | master                        | travis url to use to trigger jobs |
+| travis_url        | https://api.travis-ci.org/repo/  | travis url to use to trigger jobs |
 
 ### Starting
 
