@@ -4,7 +4,7 @@ MAINTAINER  devops <devops@aem.design>
 
 LABEL   container.description="travis pipeline trigger" \
         version="1.0.0" \
-        imagename="tavis-build-trigger" \
+        imagename="travis-build-trigger" \
         test.command=" --version" \
         test.command.verify="1.0.0"
 
