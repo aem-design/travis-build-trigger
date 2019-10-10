@@ -1,6 +1,6 @@
 ## Travis Build Trigger
 
-[![build_status](https://travis-ci.org/aem-design/travis-build-trigger.svg?branch=master)](https://travis-ci.org/aem-design/travis-build-trigger) 
+[![build_status](https://travis-ci.org/aem-design/docker-travis-build-trigger.svg?branch=master)](https://travis-ci.org/aem-design/docker-travis-build-trigger) 
 [![github license](https://img.shields.io/github/license/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
 [![github issues](https://img.shields.io/github/issues/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
 [![github last commit](https://img.shields.io/github/last-commit/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
