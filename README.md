@@ -1,13 +1,13 @@
 ## Travis Build Trigger
 
 [![build_status](https://travis-ci.org/aem-design/docker-travis-build-trigger.svg?branch=master)](https://travis-ci.org/aem-design/docker-travis-build-trigger) 
-[![github license](https://img.shields.io/github/license/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
-[![github issues](https://img.shields.io/github/issues/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
-[![github last commit](https://img.shields.io/github/last-commit/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
-[![github repo size](https://img.shields.io/github/repo-size/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger) 
+[![github license](https://img.shields.io/github/license/aem-design/docker-travis-build-trigger)](https://github.com/aem-design/docker-travis-build-trigger) 
+[![github issues](https://img.shields.io/github/issues/aem-design/docker-travis-build-trigger)](https://github.com/aem-design/docker-travis-build-trigger) 
+[![github last commit](https://img.shields.io/github/last-commit/aem-design/docker-travis-build-trigger)](https://github.com/aem-design/docker-travis-build-trigger) 
+[![github repo size](https://img.shields.io/github/repo-size/aem-design/docker-travis-build-trigger)](https://github.com/aem-design/docker-travis-build-trigger) 
 [![docker stars](https://img.shields.io/docker/stars/aemdesign/travis-build-trigger)](https://hub.docker.com/r/aemdesign/travis-build-trigger) 
 [![docker pulls](https://img.shields.io/docker/pulls/aemdesign/travis-build-trigger)](https://hub.docker.com/r/aemdesign/travis-build-trigger) 
-[![github release](https://img.shields.io/github/release/aem-design/travis-build-trigger)](https://github.com/aem-design/travis-build-trigger)
+[![github release](https://img.shields.io/github/release/aem-design/docker-travis-build-trigger)](https://github.com/aem-design/docker-travis-build-trigger)
 
 This is docker image based on [node:10](https://hub.docker.com/_/node)
 

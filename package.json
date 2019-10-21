@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aem-design/travis-build-trigger.git"
+    "url": "git+https://github.com/aem-design/docker-travis-build-trigger.git"
   },
   "keywords": [
     "travis"
@@ -16,9 +16,9 @@
   "author": "Max Barrass",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/aem-design/travis-build-trigger/issues"
+    "url": "https://github.com/aem-design/docker-travis-build-trigger/issues"
   },
-  "homepage": "https://github.com/aem-design/travis-build-trigger#readme",
+  "homepage": "https://github.com/aem-design/docker-travis-build-trigger#readme",
   "dependencies": {
     "request": "^2.88.0",
     "yargs": "^14.0.0"
